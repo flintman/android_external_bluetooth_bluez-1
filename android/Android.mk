@@ -1,5 +1,7 @@
 LOCAL_PATH := external/bluetooth
 
+ifeq ($(BOARD_USES_BLUETOOTH_BLUEZ), true)
+
 # Retrieve BlueZ version from configure.ac file
 BLUEZ_VERSION := `grep "^AC_INIT" $(LOCAL_PATH)/bluez/configure.ac | sed -e "s/.*,.\(.*\))/\1/"`
 
@@ -853,3 +855,5 @@ LOCAL_MODULE := rctest
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/bluez/configure.ac
 
 include $(BUILD_EXECUTABLE)
+
+endif # TARGET_USES_BLUETOOTH_BLUEZ
