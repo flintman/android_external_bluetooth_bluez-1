@@ -45,14 +45,18 @@ static void handle_remote_features(void *buf, uint16_t len, int fd)
 
 static void handle_get_play_status(void *buf, uint16_t len, int fd)
 {
+	struct hal_ev_avrcp_get_play_status *ev = buf;
+
 	if (cbs->get_play_status_cb)
-		cbs->get_play_status_cb();
+		cbs->get_play_status_cb((bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_list_player_attrs(void *buf, uint16_t len, int fd)
 {
+	struct hal_ev_avrcp_list_player_attrs *ev = buf;
+
 	if (cbs->list_player_app_attr_cb)
-		cbs->list_player_app_attr_cb();
+		cbs->list_player_app_attr_cb((bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_list_player_values(void *buf, uint16_t len, int fd)
@@ -60,7 +64,7 @@ static void handle_list_player_values(void *buf, uint16_t len, int fd)
 	struct hal_ev_avrcp_list_player_values *ev = buf;
 
 	if (cbs->list_player_app_values_cb)
-		cbs->list_player_app_values_cb(ev->attr);
+		cbs->list_player_app_values_cb(ev->attr, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_get_player_values(void *buf, uint16_t len, int fd)
@@ -76,7 +80,7 @@ static void handle_get_player_values(void *buf, uint16_t len, int fd)
 	for (i = 0; i < ev->number; i++)
 		attrs[i] = ev->attrs[i];
 
-	cbs->get_player_app_value_cb(ev->number, attrs);
+	cbs->get_player_app_value_cb(ev->number, attrs, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_get_player_attrs_text(void *buf, uint16_t len, int fd)
@@ -92,7 +96,7 @@ static void handle_get_player_attrs_text(void *buf, uint16_t len, int fd)
 	for (i = 0; i < ev->number; i++)
 		attrs[i] = ev->attrs[i];
 
-	cbs->get_player_app_attrs_text_cb(ev->number, attrs);
+	cbs->get_player_app_attrs_text_cb(ev->number, attrs, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_get_player_values_text(void *buf, uint16_t len, int fd)
@@ -101,7 +105,7 @@ static void handle_get_player_values_text(void *buf, uint16_t len, int fd)
 
 	if (cbs->get_player_app_values_text_cb)
 		cbs->get_player_app_values_text_cb(ev->attr, ev->number,
-								ev->values);
+							ev->values, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_set_player_value(void *buf, uint16_t len, int fd)
@@ -123,7 +127,7 @@ static void handle_set_player_value(void *buf, uint16_t len, int fd)
 		values.attr_values[i] = attrs[i].value;
 	}
 
-	cbs->set_player_app_value_cb(&values);
+	cbs->set_player_app_value_cb(&values, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_get_element_attrs(void *buf, uint16_t len, int fd)
@@ -139,7 +143,7 @@ static void handle_get_element_attrs(void *buf, uint16_t len, int fd)
 	for (i = 0; i < ev->number; i++)
 		attrs[i] = ev->attrs[i];
 
-	cbs->get_element_attr_cb(ev->number, attrs);
+	cbs->get_element_attr_cb(ev->number, attrs, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_register_notification(void *buf, uint16_t len, int fd)
@@ -147,7 +151,7 @@ static void handle_register_notification(void *buf, uint16_t len, int fd)
 	struct hal_ev_avrcp_register_notification *ev = buf;
 
 	if (cbs->register_notification_cb)
-		cbs->register_notification_cb(ev->event, ev->param);
+		cbs->register_notification_cb(ev->event, ev->param, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_volume_changed(void *buf, uint16_t len, int fd)
@@ -155,7 +159,7 @@ static void handle_volume_changed(void *buf, uint16_t len, int fd)
 	struct hal_ev_avrcp_volume_changed *ev = buf;
 
 	if (cbs->volume_change_cb)
-		cbs->volume_change_cb(ev->volume, ev->type);
+		cbs->volume_change_cb(ev->volume, ev->type, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 static void handle_passthrough_cmd(void *buf, uint16_t len, int fd)
@@ -163,7 +167,7 @@ static void handle_passthrough_cmd(void *buf, uint16_t len, int fd)
 	struct hal_ev_avrcp_passthrough_cmd *ev = buf;
 
 	if (cbs->passthrough_cmd_cb)
-		cbs->passthrough_cmd_cb(ev->id, ev->state);
+		cbs->passthrough_cmd_cb(ev->id, ev->state, (bt_bdaddr_t *) (ev->bdaddr));
 }
 
 /*

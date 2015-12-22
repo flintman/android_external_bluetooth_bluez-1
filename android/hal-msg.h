@@ -1656,23 +1656,33 @@ struct hal_ev_avrcp_remote_features {
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_GET_PLAY_STATUS		0x82
+struct hal_ev_avrcp_get_play_status {
+	uint8_t bdaddr[6];
+} __attribute__((packed));
+
 #define HAL_EV_AVRCP_LIST_PLAYER_ATTRS		0x83
+struct hal_ev_avrcp_list_player_attrs {
+	uint8_t bdaddr[6];
+} __attribute__((packed));
 
 #define HAL_EV_AVRCP_LIST_PLAYER_VALUES		0x84
 struct hal_ev_avrcp_list_player_values {
 	uint8_t attr;
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_GET_PLAYER_VALUES		0x85
 struct hal_ev_avrcp_get_player_values {
 	uint8_t number;
 	uint8_t attrs[0];
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_GET_PLAYER_ATTRS_TEXT	0x86
 struct hal_ev_avrcp_get_player_attrs_text {
 	uint8_t number;
 	uint8_t attrs[0];
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_GET_PLAYER_VALUES_TEXT	0x87
@@ -1680,36 +1690,42 @@ struct hal_ev_avrcp_get_player_values_text {
 	uint8_t attr;
 	uint8_t number;
 	uint8_t values[0];
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_SET_PLAYER_VALUES		0x88
 struct hal_ev_avrcp_set_player_values {
 	uint8_t number;
 	struct hal_avrcp_player_attr_value attrs[0];
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_GET_ELEMENT_ATTRS		0x89
 struct hal_ev_avrcp_get_element_attrs {
 	uint8_t number;
 	uint8_t attrs[0];
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_REGISTER_NOTIFICATION	0x8a
 struct hal_ev_avrcp_register_notification {
 	uint8_t event;
 	uint32_t param;
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_VOLUME_CHANGED		0x8b
 struct hal_ev_avrcp_volume_changed {
 	uint8_t volume;
 	uint8_t type;
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_PASSTHROUGH_CMD		0x8c
 struct hal_ev_avrcp_passthrough_cmd {
 	uint8_t id;
 	uint8_t state;
+	uint8_t bdaddr[6];
 } __attribute__((packed));
 
 #define HAL_EV_AVRCP_CTRL_CONN_STATE		0x81
